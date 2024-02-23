@@ -46,6 +46,8 @@ export class UserFormComponent implements OnInit, OnDestroy {
   updateBtnIsVisible() {
     this.dataService.isViewEditVisibleAndBtnEditVisible.subscribe((isVisble: boolean) => {
       this.isEditVisible = isVisble;
+    }, (err)=>{
+      alert(err)
     })
   }
 
