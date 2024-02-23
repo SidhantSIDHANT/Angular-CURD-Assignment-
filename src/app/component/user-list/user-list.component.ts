@@ -36,6 +36,8 @@ export class UserListComponent implements OnInit, OnDestroy {
   isBtnEdit(): void {
     this.dataService.isViewEditVisibleAndBtnEditVisible.subscribe((res) => {
       this.editMode = res;
+    }, (err)=>{
+      alert(err)
     })
   }
 
@@ -53,12 +55,16 @@ export class UserListComponent implements OnInit, OnDestroy {
     this.dataService.getUserList().pipe(takeUntil(this.unSubscribe$)).subscribe((list: IuserList) => {
       this.dataSource.push(list);
       this.dataSource = [...this.dataSource];
+    }, (err)=>{
+      alert(err)
     })
   }
 
   getUserList(): void {
     this.userService.getUsers().pipe(takeUntil(this.unSubscribe$)).subscribe((data: IuserList[]) => {
       this.dataSource = data;
+    }, (err)=>{
+      alert(err)
     })
   }
 
