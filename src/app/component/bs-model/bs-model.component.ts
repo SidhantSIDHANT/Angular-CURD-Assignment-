@@ -8,20 +8,15 @@ import { DataService } from 'src/app/services/dataService';
   templateUrl: './bs-model.component.html',
   styleUrls: ['./bs-model.component.scss']
 })
-export class BsModelComponent implements OnInit, AfterViewInit {
+export class BsModelComponent implements OnInit {
   modalRef !: BsModalRef;
-
   @ViewChild("template", { static: false }) template !: any;
 
-  constructor(public modalService: BsModalService, private _dataService: DataService) { }
+  constructor(private modalService: BsModalService,
+    private _dataService: DataService
+  ) { }
 
-  ngOnInit(): void {
-    console.log(this.template)
-  }
-
-  ngAfterViewInit(): void {
-    console.log(this.template)
-  }
+  ngOnInit(): void { }
 
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(this.template);

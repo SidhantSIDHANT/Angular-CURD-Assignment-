@@ -28,14 +28,13 @@ export class userService {
         return this._http.delete<any>(`${this.api}/${id}`);
     }
 
-    updateSingleUser(id : any,list : IuserList) : Observable<IuserList>{
-        // const header = new HttpHeaders({})
-        return this._http.put<IuserList>(this.api + "/" + id, list );
+    updateSingleUser(id: any, list: IuserList): Observable<IuserList> {
+        const head = new HttpHeaders({
+            'Content-type': 'application/json'
+        })
+        return this._http.patch<IuserList>(`${this.api}/${id}`, list, {headers : head});
     }
 
-    // usersUpdated(list: any): void {
-    //  this.updatedUsrList = list;
-    // };
 }
 
 

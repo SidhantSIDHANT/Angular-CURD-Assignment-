@@ -1,15 +1,13 @@
-<section class="bsmodel">
+<section class="bsmodel" id="bsmodel">
     <div class="container mt-3">
         <div class="text-right">
-            <button type="button" class="btn btn-primary" (click)="openModal(template);">openModal</button>
+            <button type="button" class="btn btn-info button-postion" (click)="openModal(template);"><span class="mr-2">Users</span> <i class="fa-solid fa-plus"></i></button>
         </div>
-        <!-- <div #formElementRef> -->
-            <ng-template #template>
+        <ng-template #template>
+                <h1 class="text-uppercase text-center bg-info p-3">Add Users Form</h1>
                 <app-user-form  [modalRef]="modalRef">
                 </app-user-form>
-            </ng-template>    
-        <!-- </div> -->
-        
+            </ng-template>            
     </div>
 </section>
 

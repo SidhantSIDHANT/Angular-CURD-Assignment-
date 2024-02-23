@@ -1,23 +1,25 @@
 
 
 <form [formGroup]="userForm" (ngSubmit)="onSubmitUserList()">
-    <mat-form-field [appearance]="inputAppearance" class="d-block">
+    <mat-form-field [appearance]="'fill'" class="d-block">
         <mat-label><strong>Firstname</strong></mat-label>
-        <input type="text" matInput id="firstname" formControlName="firstName"  (keypress)="onChanges($event)" >
+        <input type="text" matInput id="firstname" formControlName="firstName">
     </mat-form-field>
 
-    <mat-form-field [appearance]="inputAppearance" class="d-block" >
+    <mat-form-field [appearance]="'fill'" class="d-block" >
         <mat-label><b>Last Name</b></mat-label>
-        <input type="text" matInput id="lastname" formControlName="lastName"  (keypress)="onChanges($event!)">
+        <input type="text" matInput id="lastname" formControlName="lastName">
     </mat-form-field>
 
-    <mat-form-field [appearance]="inputAppearance" class="d-block" >
+    <mat-form-field [appearance]="'fill'" class="d-block" >
         <mat-label><b>Email</b></mat-label>
-        <input type="text" matInput id="email" formControlName="email"  (keypress)="onChanges($event)">
+        <input type="text" matInput id="email" formControlName="email">
     </mat-form-field>
 
     <div class="text-right">
-        <button type="submit" class="btn btn-success" *ngIf="!isEditVisible">Add Users</button>
-        <button type="button" class="btn btn-success" *ngIf="isEditVisible" (click)="updateUsers()" >Update Users</button>
+        <button type="submit" class="btn btn-secondary mr-3" (click)="modalRef.hide()" *ngIf="!isEditVisible">Cancel </button>
+        <button type="submit" class="btn btn-info" *ngIf="!isEditVisible">Add Users</button>
+        <button type="button"  class="btn btn-secondary mr-3" *ngIf="isEditVisible" (click)="cancel()" >Cancel</button>
+        <button type="button" class="btn btn-info" *ngIf="isEditVisible" (click)="updateUsers()" >Update</button>
     </div>
 </form>

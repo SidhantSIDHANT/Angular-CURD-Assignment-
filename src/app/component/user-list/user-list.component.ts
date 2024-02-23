@@ -1,59 +1,63 @@
-import { AfterViewInit, Component, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
+import { AfterViewInit, Component, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { BsModalService } from 'ngx-bootstrap';
 import { IuserList } from 'src/app/models/user-model';
 import { DataService } from 'src/app/services/dataService';
 import { userService } from 'src/app/services/user-service';
-import { BsModelComponent } from '../bs-model/bs-model.component';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-user-list',
   templateUrl: './user-list.component.html',
   styleUrls: ['./user-list.component.scss']
 })
-export class UserListComponent implements OnInit, AfterViewInit {
+export class UserListComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = ['sr.no', 'firstname', 'lastname', 'email', 'edit', 'Delete'];
   dataSource: IuserList[] = [];
   isVisible: boolean = false;
   editMode: boolean = false;
-  userList !:IuserList;  
+  userList !: IuserList;
+  unSubscribe$: Subject<void> = new Subject<void>();
 
   constructor(private userService: userService,
     private dataService: DataService,
-    public modalService: BsModalService,
-    public router: Router, public route: ActivatedRoute
+    private modalService: BsModalService,
+    private router: Router,
+    private route: ActivatedRoute
   ) { }
-
-  ngAfterViewInit() {}
 
   ngOnInit(): void {
     this.getUserList();
     this.addSingleUser();
-    this.updateUser();
     this.isBtnEdit();
   }
 
-  isBtnEdit() : void{
-    this.dataService.isViewEditVisibleAndBtnEditVisible.subscribe((res)=>{
+  isBtnEdit(): void {
+    this.dataService.isViewEditVisibleAndBtnEditVisible.subscribe((res) => {
       this.editMode = res;
     })
   }
 
-  updateUser() : void{
-   
+  updateUser(list: IuserList): void {
+    this.dataSource.forEach((item: IuserList) => {
+      if (list.id == item.id) {
+        item.firstName = list.firstName;
+        item.lastName = list.lastName;
+        item.email = list.email
+      }
+    })
   }
 
   addSingleUser(): void {
-    this.dataService.getUserList().subscribe((list: IuserList) => {
+    this.dataService.getUserList().pipe(takeUntil(this.unSubscribe$)).subscribe((list: IuserList) => {
       this.dataSource.push(list);
       this.dataSource = [...this.dataSource];
     })
   }
 
   getUserList(): void {
-    this.userService.getUsers().subscribe((data: IuserList[]) => {
+    this.userService.getUsers().pipe(takeUntil(this.unSubscribe$)).subscribe((data: IuserList[]) => {
       this.dataSource = data;
     })
   }
@@ -68,7 +72,7 @@ export class UserListComponent implements OnInit, AfterViewInit {
 
   onDeleteUserList(element: IuserList): void {
     this.deleteUserList(element);
-    this.userService.deleteUser(Number(element.id)).subscribe((deletedUser: Object) => {
+    this.userService.deleteUser(Number(element.id)).pipe(takeUntil(this.unSubscribe$)).subscribe((deletedUser: Object) => {
     })
   }
 
@@ -78,6 +82,10 @@ export class UserListComponent implements OnInit, AfterViewInit {
     this.dataService.isViewEditVisibleAndBtnEditVisible.next(this.editMode);
   }
 
+  ngOnDestroy(): void {
+    this.unSubscribe$.next();
+    this.unSubscribe$.complete();
+  }
 }
 
 
