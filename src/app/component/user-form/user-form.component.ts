@@ -49,7 +49,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
     this.dataService.isViewEditVisibleAndBtnEditVisible.subscribe((isVisble: boolean) => {
       this.isEditVisible = isVisble;
     }, (err) => {
-      this.snackBarSerice.openSnackBar("Message", err, 9000, 'top', 'center')
+      this.snackBarSerice.openSnackBar("Message", err, 9000, 'center', 'top')
     })
   }
 
@@ -68,7 +68,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
         this.dataService.sendToSubscriber(data);
         this.modalRef.hide();
       }, (err) => {
-        this.snackBarSerice.openSnackBar("Message", err, 9000, 'top', 'center')
+        this.snackBarSerice.openSnackBar("Message", err, 9000, 'center', 'top')
       })
     }
   }
@@ -78,7 +78,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
     const updateUsers = { ...this.userForm.value, id: this.userList.id };
     this.userEvent.emit(updateUsers)
     this.userService.updateSingleUser(this.userList.id, updateUsers).pipe(takeUntil(this.unSubscribe$)).subscribe((res) => { console.log(res) }, err => {
-      this.snackBarSerice.openSnackBar("Message", err, 9000, 'top', 'center')
+      this.snackBarSerice.openSnackBar("Message", err, 9000, 'center', 'top')
     })
   }
 

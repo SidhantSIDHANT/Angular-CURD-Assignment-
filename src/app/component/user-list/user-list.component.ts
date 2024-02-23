@@ -39,7 +39,7 @@ export class UserListComponent implements OnInit, OnDestroy {
     this.dataService.isViewEditVisibleAndBtnEditVisible.subscribe((res) => {
       this.editMode = res;
     }, (err) => {
-      this.snackBarSerice.openSnackBar("Message", err, 9000, 'top', 'center')
+      this.snackBarSerice.openSnackBar("Message", err, 9000, 'center', 'top')
     })
   }
 
@@ -51,7 +51,7 @@ export class UserListComponent implements OnInit, OnDestroy {
         item.email = list.email
       }
     })
-    this.snackBarSerice.openSnackBar("Message", "Updated", 9000, 'top', 'center')
+    this.snackBarSerice.openSnackBar("Message", "Updated", 9000, 'center', 'top')
     
   }
 
@@ -68,7 +68,7 @@ export class UserListComponent implements OnInit, OnDestroy {
     this.userService.getUsers().pipe(takeUntil(this.unSubscribe$)).subscribe((data: IuserList[]) => {
       this.dataSource = data;
     }, (err) => {
-      this.snackBarSerice.openSnackBar("Message", err, 9000, 'top', 'center')
+      this.snackBarSerice.openSnackBar("Message", err, 9000, 'center', 'top')
     })
   }
 
