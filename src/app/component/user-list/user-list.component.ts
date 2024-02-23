@@ -51,6 +51,8 @@ export class UserListComponent implements OnInit, OnDestroy {
         item.email = list.email
       }
     })
+    this.snackBarSerice.openSnackBar("Message", "Updated", 9000, 'top', 'center')
+    
   }
 
   addSingleUser(): void {
@@ -79,10 +81,11 @@ export class UserListComponent implements OnInit, OnDestroy {
   }
 
   onDeleteUserList(element: IuserList): void {
+    this.snackBarSerice.openSnackBar("Message", "Deleted", 9000, 'center', 'top')
     this.deleteUserList(element);
     this.userService.deleteUser(Number(element.id)).pipe(takeUntil(this.unSubscribe$)).subscribe((deletedUser: Object) => {
     }, (err) => {
-      this.snackBarSerice.openSnackBar("Message", err, 9000, 'top', 'center')
+      this.snackBarSerice.openSnackBar("Message", err, 9000, 'center', 'top')
     })
   }
 
