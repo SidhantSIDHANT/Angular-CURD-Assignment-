@@ -6,6 +6,7 @@ import { userService } from 'src/app/services/user-service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { SnackBarSerice } from 'src/app/services/snackBarService';
 
 @Component({
   selector: 'app-user-list',
@@ -24,7 +25,8 @@ export class UserListComponent implements OnInit, OnDestroy {
     private dataService: DataService,
     private modalService: BsModalService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private snackBarSerice: SnackBarSerice,
   ) { }
 
   ngOnInit(): void {
@@ -36,8 +38,8 @@ export class UserListComponent implements OnInit, OnDestroy {
   isBtnEdit(): void {
     this.dataService.isViewEditVisibleAndBtnEditVisible.subscribe((res) => {
       this.editMode = res;
-    }, (err)=>{
-      alert(err)
+    }, (err) => {
+      this.snackBarSerice.openSnackBar("Message", err, 9000, 'top', 'center')
     })
   }
 
@@ -55,16 +57,16 @@ export class UserListComponent implements OnInit, OnDestroy {
     this.dataService.getUserList().pipe(takeUntil(this.unSubscribe$)).subscribe((list: IuserList) => {
       this.dataSource.push(list);
       this.dataSource = [...this.dataSource];
-    }, (err)=>{
-      alert(err)
+    }, (err) => {
+      this.snackBarSerice.openSnackBar("Message", err, 9000, 'top', 'center')
     })
   }
 
   getUserList(): void {
     this.userService.getUsers().pipe(takeUntil(this.unSubscribe$)).subscribe((data: IuserList[]) => {
       this.dataSource = data;
-    }, (err)=>{
-      alert(err)
+    }, (err) => {
+      this.snackBarSerice.openSnackBar("Message", err, 9000, 'top', 'center')
     })
   }
 
@@ -79,6 +81,8 @@ export class UserListComponent implements OnInit, OnDestroy {
   onDeleteUserList(element: IuserList): void {
     this.deleteUserList(element);
     this.userService.deleteUser(Number(element.id)).pipe(takeUntil(this.unSubscribe$)).subscribe((deletedUser: Object) => {
+    }, (err) => {
+      this.snackBarSerice.openSnackBar("Message", err, 9000, 'top', 'center')
     })
   }
 

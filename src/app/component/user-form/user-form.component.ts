@@ -8,6 +8,7 @@ import { DataService } from 'src/app/services/dataService';
 import { userService } from 'src/app/services/user-service';
 import { EventEmitter } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
+import { SnackBarSerice } from 'src/app/services/snackBarService';
 @Component({
   selector: 'app-user-form',
   templateUrl: './user-form.component.html',
@@ -26,7 +27,8 @@ export class UserFormComponent implements OnInit, OnDestroy {
     private userService: userService,
     private dataService: DataService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private snackBarSerice: SnackBarSerice,
   ) { }
 
   ngOnInit(): void {
@@ -46,8 +48,8 @@ export class UserFormComponent implements OnInit, OnDestroy {
   updateBtnIsVisible() {
     this.dataService.isViewEditVisibleAndBtnEditVisible.subscribe((isVisble: boolean) => {
       this.isEditVisible = isVisble;
-    }, (err)=>{
-      alert(err)
+    }, (err) => {
+      this.snackBarSerice.openSnackBar("Message", err, 9000, 'top', 'center')
     })
   }
 
@@ -61,11 +63,12 @@ export class UserFormComponent implements OnInit, OnDestroy {
 
   onSubmitUserList(): void {
     if (this.userForm.valid) {
+      this.snackBarSerice.openSnackBar("Message", 'table Updated', 9000, 'left', 'center')
       this.userService.addUser(this.userForm.value).pipe(takeUntil(this.unSubscribe$)).subscribe((data: any) => {
         this.dataService.sendToSubscriber(data);
         this.modalRef.hide();
       }, (err) => {
-        alert(err);
+        this.snackBarSerice.openSnackBar("Message", err, 9000, 'top', 'center')
       })
     }
   }
@@ -74,10 +77,12 @@ export class UserFormComponent implements OnInit, OnDestroy {
     this.dataService.isViewEditVisibleAndBtnEditVisible.next(false)
     const updateUsers = { ...this.userForm.value, id: this.userList.id };
     this.userEvent.emit(updateUsers)
-    this.userService.updateSingleUser(this.userList.id, updateUsers).pipe(takeUntil(this.unSubscribe$)).subscribe((res) => { console.log(res) }, err => { alert(err) })
+    this.userService.updateSingleUser(this.userList.id, updateUsers).pipe(takeUntil(this.unSubscribe$)).subscribe((res) => { console.log(res) }, err => {
+      this.snackBarSerice.openSnackBar("Message", err, 9000, 'top', 'center')
+    })
   }
 
-  cancel() : void{
+  cancel(): void {
     this.dataService.isViewEditVisibleAndBtnEditVisible.next(false)
   }
 
