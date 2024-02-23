@@ -1,0 +1,32 @@
+{
+  "posts": [
+    {
+      "firstName": "Sidhant",
+      "lastName": "Kul",
+      "email": "sidhantkulkarni27@gmail.com",
+      "id": 1
+    },
+    {
+      "firstName": "S",
+      "lastName": "Ks",
+      "email": "s",
+      "id": 2
+    },
+    {
+      "firstName": "Sidhantddd",
+      "lastName": "dd",
+      "email": "sssdd",
+      "id": 3
+    },
+    {
+      "firstName": "Sidhantddd",
+      "lastName": "dd",
+      "email": "sssdd",
+      "id": 4
+    }
+  ],
+  "comments": [],
+  "profile": {
+    "name": "typicode"
+  }
+}

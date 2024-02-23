@@ -1,0 +1,23 @@
+
+
+<form [formGroup]="userForm" (ngSubmit)="onSubmitUserList()">
+    <mat-form-field [appearance]="inputAppearance" class="d-block">
+        <mat-label><strong>Firstname</strong></mat-label>
+        <input type="text" matInput id="firstname" formControlName="firstName"  (keypress)="onChanges($event)" >
+    </mat-form-field>
+
+    <mat-form-field [appearance]="inputAppearance" class="d-block" >
+        <mat-label><b>Last Name</b></mat-label>
+        <input type="text" matInput id="lastname" formControlName="lastName"  (keypress)="onChanges($event!)">
+    </mat-form-field>
+
+    <mat-form-field [appearance]="inputAppearance" class="d-block" >
+        <mat-label><b>Email</b></mat-label>
+        <input type="text" matInput id="email" formControlName="email"  (keypress)="onChanges($event)">
+    </mat-form-field>
+
+    <div class="text-right">
+        <button type="submit" class="btn btn-success" *ngIf="!isEditVisible">Add Users</button>
+        <button type="button" class="btn btn-success" *ngIf="isEditVisible" (click)="updateUsers()" >Update Users</button>
+    </div>
+</form>

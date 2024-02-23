@@ -1,0 +1,15 @@
+<section class="bsmodel">
+    <div class="container mt-3">
+        <div class="text-right">
+            <button type="button" class="btn btn-primary" (click)="openModal(template);">openModal</button>
+        </div>
+        <!-- <div #formElementRef> -->
+            <ng-template #template>
+                <app-user-form  [modalRef]="modalRef">
+                </app-user-form>
+            </ng-template>    
+        <!-- </div> -->
+        
+    </div>
+</section>
+

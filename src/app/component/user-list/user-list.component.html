@@ -1,0 +1,53 @@
+<section id="table">
+    <ng-container *ngIf="editMode;else listView">
+        <div class="editMode">
+            <app-user-form [userList]="userList"></app-user-form>
+        </div>
+    </ng-container>
+    <ng-template #listView>
+        <div class="container">
+            <app-bs-model></app-bs-model>
+            <div class="mat-elevation-z8" id="mat-elevation-width">
+                <table mat-table [dataSource]="dataSource" class="w-100 mt-5">
+
+                    <ng-container matColumnDef="sr.no">
+                        <th mat-header-cell *matHeaderCellDef class="font-weight-bold">Sr.No </th>
+                        <td mat-cell *matCellDef="let i = index;"> {{i+1}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="firstname">
+                        <th mat-header-cell *matHeaderCellDef> <strong>First Name</strong> </th>
+                        <td mat-cell *matCellDef="let element"> {{element?.firstName}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="lastname">
+                        <th mat-header-cell *matHeaderCellDef> <strong>Last Name</strong> </th>
+                        <td mat-cell *matCellDef="let element"> {{element?.lastName}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="email">
+                        <th mat-header-cell *matHeaderCellDef> <strong>Email</strong> </th>
+                        <td mat-cell *matCellDef="let element"> {{element?.email}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="edit">
+                        <th mat-header-cell *matHeaderCellDef> <strong>Edit</strong> </th>
+                        <td mat-cell *matCellDef="let element">
+                            <button mat-raised-button color="primary" (click)="editUserList(element)">Edit</button>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Delete">
+                        <th mat-header-cell *matHeaderCellDef> Delete </th>
+                        <td mat-cell *matCellDef="let element">
+                            <button mat-raised-button color="warn" (click)="onDeleteUserList(element)">Delete</button>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+            </div>
+        </div>
+    </ng-template>
+</section>
